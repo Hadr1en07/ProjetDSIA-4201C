@@ -5,7 +5,7 @@
 
 ## Description
 
-Ce projet a pour objectif d'analyser les statistiques des joueurs de football dans **FIFA 22**, un jeu de simulation de football. En utilisant les données complètes des joueurs disponibles dans FIFA 22, nous explorons des aspects tels que les performances, les nationalités, les clubs, et d'autres caractéristiques des joueurs.
+Ce projet a pour objectif d'étudier les données du site de Nintendo et en particulier de la catégorie Jeux en scrapant les données directement sur le site web et en les affichant sur un dashboard. Ces données seront directement stockées dans une BDD. En utilisant les données complètes des différents jeux disponibles sur le site de Nintendo, nous explorons des informations telles que les prix, les dates de sortie, les types de console compatible...
 
 
 ### Objectifs du projet
