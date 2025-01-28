@@ -1,16 +1,24 @@
 # Projet DSIA-4201C - DataEngineeringTools
 
-![Club 22 Logo](assets/cover.jpg)
+![Nintendo Logo](assets/cover.jpg)
 
 
-## Description
+## 📌 Description
 
 Ce projet a pour objectif d'étudier les données du site de Nintendo et en particulier de la catégorie Jeux en scrapant les données directement sur le site web et en les affichant sur un dashboard. Ces données seront directement stockées dans une BDD. En utilisant les données complètes des différents jeux disponibles sur le site de Nintendo, nous explorons des informations telles que les prix, les dates de sortie, les types de console compatible...
+Ce projet scrappe la catégorie "Jeux" du site **Nintendo**, stocke les données dans **MongoDB**, et les affiche dans une interface **Dash**.
 
 
 ### Objectifs du projet
 
 L’objectif principal est de déterminer les pays ayant les joueurs actuels et futurs possédant les meilleurs notes générales de FIFA 22 à travers un dashboard interactif. Les utilisateurs peuvent explorer différentes statistiques et effectuer des comparaisons entre les joueurs, les clubs et les pays. 
+
+## 🛠️ Technologies utilisées
+- Scrapy
+- MongoDB
+- Dash (pour l'interface)
+- Elasticsearch
+- Docker / Docker Compose
 
 ## Table des Matières
 
@@ -97,10 +105,6 @@ Les données des joueurs proviennent du dataset **"FIFA 22 Complete Player Datas
  
 
 
-### Sources des données
-
-- **Kaggle** : Le dataset principal provient de Kaggle, dans le projet `stefanoleone992/fifa-22-complete-player-dataset`.
-- **API CurieXplore** : Une base de données complémentaire fournit les coordonnées géographiques des pays, permettant de visualiser les nationalités des joueurs de manière géolocalisée.
 
 
 
@@ -165,83 +169,11 @@ graph TB
 
 
    ```
- ### Ajout d'une Nouvelle Page
-
- Pour ajouter une nouvelle page à l'application il faut :
-
- 1. Créer un Nouveau Fichier dans le Répertoire `pages/`
-   
-      - Par exemple,` src/pages/new_page.py`
-  
- 2. Enregistrer la Page avec Dash
-   
-   - Dans new_pages.py, ajoutez : 
-  
-  ``` python 
-  import dash
-  form dash import html
-
-  dash.register_page(__name__, path='/new_page')
-
-  layout= html.Div([
-   #mettre le contenu voulu ici
-  ])
-  ```
-
- 3. Ajouter le Contenu de la Page 
-   
-   - Utilisez les composants Dash pour construire le contenu de votre page. 
-
-
-### Ajout d'un Nouveau Graphique
-
-Pour ajouter un nouveau graphique :
-
-1. Importer les Bibliothèques Nécessaires
-   ``` python
-   import plotly.express as px
-   from dash import dcc
-   ```
-  
-
-2. Créer le graphique 
-   ``` python
-   fig = px.scatter(data_frame, x='x_column', y='y_column')
-   ```
-
-3. Ajouter le Graphique au Layout
-   ``` python
-   layout = html.Div([
-    # Autres composants
-    dcc.Graph(figure=fig)
-   ])
+ 
 
 ---
 ## Rapport d'analyse
 
-### Les Meilleurs Joueurs
-
-- Dominance des Nations Européennes : La majorité des meilleurs joueurs proviennent de pays européens tels que l'**Espagne**, l'**Allemagne**, la **France** et l'**Angleterre**.
-  
- - Continuité des Nations d'Amérique du Sud : La seconde majorité se trouve dans les pays d'Amérique du Sud comme l'**Argentine**, le **Brésil** et L'**Uruguay**.
-  
-- Concentration dans les Grandes Ligues : On peut observer lorsque l'on clique sur un pays de la carte que tous les joueurs sont présent dans les **5 grand Championnats Européens**.
-
-### Le Meilleur Joueur
-
-- Sur FIFA 22 le meilleur joueur est **Lionel Messi**.
-
-
-
-### Les Futurs Meilleurs Joueurs
-
-- Dominance des Nations Européennes : Comme pour les meilleurs joueurs, l'Europe a également le plus grand nombre de joueurs avec le plus grand potentiel, avec comme principale pays la **France**, l'**Allemagne** et l'**Angleterre**.
-  
-- Continuité des Nations d'Amérique du Sud : Le **Brésil** et l'**Argentine** sont les seuls autres pays à avoir des joueurs à très haut potentiel, le **Brésil** est celui qui en a le plus au monde avec 5.
-
-### Le Futur Meilleur Joueur
-
-- Sur FIFA 22 le futur meilleur joueur est **Kylian Mbappé**.
 
 
 ### Conclusion de l'Analyse 

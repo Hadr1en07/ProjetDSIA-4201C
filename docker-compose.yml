@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  db:
+    build: ./DB
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./DB/data:/data/db
+
+  scraper:
+    build: ./Scrapy
+    container_name: scraper
+    depends_on:
+      - db
+
+  api:
+    build: ./Api
+    container_name: dash_api
+    ports:
+      - "8050:8050"
+    depends_on:
+      - db
+
+  elasticsearch:
+    build: ./Elasticsearch
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
