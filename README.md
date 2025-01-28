@@ -1,6 +1,6 @@
 # Projet DSIA-4201C - DataEngineeringTools
 
-![Nintendo Logo](assets/cover.jpg)
+![Nintendo Logo](assets/cover.png)
 
 
 ## 📌 Description
