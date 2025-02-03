@@ -21,7 +21,7 @@ class NintendoSpiderMiddleware:
     def process_spider_input(self, response, spider):
         """ Appelé pour chaque réponse reçue par la spider. """
         spider.logger.info(f"Réponse reçue: {response.url}")
-        return None  # Continuer normalement
+        return None
 
     def process_spider_output(self, response, result, spider):
         """ Appelé après que la spider ait traité la réponse. """
