@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil - Nintendo Dashboard{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1>Bienvenue sur le Nintendo Dashboard</h1>
+    <p>Recherchez vos jeux Nintendo préférés ou explorez les statistiques de l'univers des jeux.</p>
+    <form class="d-flex justify-content-center" method="get" action="{{ url_for('search') }}">
+        <input class="form-control me-2 w-50" type="search" placeholder="Rechercher un jeu" aria-label="Search" name="q">
+        <button class="btn btn-light" type="submit">Rechercher</button>
+    </form>
+</div>
+{% endblock %}

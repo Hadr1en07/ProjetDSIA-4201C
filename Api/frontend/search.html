@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Résultats de recherche - Nintendo Dashboard{% endblock %}
+
+{% block content %}
+<h2>Résultats de recherche pour "{{ query }}"</h2>
+{% if games %}
+    <div class="row">
+        {% for game in games %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                {% if game.image %}
+                <img src="{{ game.image }}" class="card-img-top" alt="Cover de {{ game.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ game.title }}</h5>
+                    <p class="card-text">{{ game.description }}</p>
+                    <p><strong>Prix :</strong> {{ game.price }}</p>
+                    <a href="{{ url_for('game_detail', game_id=game._id) }}" class="btn btn-primary">Détails</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>Aucun jeu trouvé pour "{{ query }}".</p>
+{% endif %}
+{% endblock %}

@@ -2,7 +2,7 @@
 FROM python:3.9-slim
 
 #
-WORKDIR /Api/dash_nintendo_app
+WORKDIR /Api
 
 COPY . .
 

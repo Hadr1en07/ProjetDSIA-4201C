@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}{{ game.title }} - Nintendo Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        {% if game.image %}
+        <img src="{{ game.image }}" class="img-fluid" alt="Cover de {{ game.title }}">
+        {% endif %}
+    </div>
+    <div class="col-md-8">
+        <h2>{{ game.title }}</h2>
+        <p><strong>Description :</strong> {{ game.description }}</p>
+        <p><strong>Prix :</strong> {{ game.price }}</p>
+        <p><strong>Âge recommandé :</strong> {{ game.age_rating }}</p>
+        <p><strong>Genre :</strong> {{ game.genre }}</p>
+        <a href="{{ game.link }}" target="_blank" class="btn btn-secondary">Voir sur Nintendo</a>
+    </div>
+</div>
+{% endblock %}
