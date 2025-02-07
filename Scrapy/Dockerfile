@@ -1,12 +1,11 @@
 #Image de base python pour le Dockerfile\
 FROM python:3.9-slim
 
-WORKDIR /app/Scrapy
+WORKDIR /Scrapy
 
-COPY requirements.txt . 
+COPY . .
 
 RUN pip install -r requirements.txt 
 
-COPY . . 
 
-CMD ["scrapy", "crawl", "nintendo_games"]
+CMD ["scrapy", "crawl", "nintendo_spider"]

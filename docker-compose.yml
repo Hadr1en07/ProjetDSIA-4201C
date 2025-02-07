@@ -1,30 +1,52 @@
-version: '3.8'
 services:
-  db:
-    build: ./DB
-    container_name: mongodb
-    ports:
-      - "27017:27017"
-    volumes:
-      - ./DB/data:/data/db
 
   scraper:
-    build: ./Scrapy
+    build:
+      context: ./Scrapy
+      dockerfile: Dockerfile
     container_name: scraper
+    working_dir: /Scrapy
+
     depends_on:
       - db
+    networks:
+      - my_network
 
   api:
-    build: ./Api
+    build:
+      context: ./Api
+      dockerfile: Dockerfile
     container_name: dash_api
     ports:
       - "8050:8050"
     depends_on:
       - db
+    networks:
+      - my_network
+  db:
+    build:
+      context: ./DB
+      dockerfile: Dockerfile
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - my_network
 
   elasticsearch:
-    build: ./Elasticsearch
+    build:
+      context: ./Elasticsearch
+      dockerfile: Dockerfile
     container_name: elasticsearch
     ports:
       - "9200:9200"
       - "9300:9300"
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge

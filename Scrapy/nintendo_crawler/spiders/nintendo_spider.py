@@ -11,11 +11,6 @@ class NintendoSpider(scrapy.Spider):
     allowed_domains = ["nintendo.com"]
     start_urls = ['https://www.nintendo.com/fr-fr/Jeux/Jeux-347085.html']
 
-    #def __init__(self):
-        #self.client = MongoClient("mongodb://db:27017/")
-        #self.db = self.client["nintendo_db"]
-        #self.collection = self.db["games"]
-
     def parse(self, response):
         """Parcourt la liste des jeux et suit chaque lien"""
         for game in response.css("li.page-list-group-item"):

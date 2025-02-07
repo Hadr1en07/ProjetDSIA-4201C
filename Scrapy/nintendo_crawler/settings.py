@@ -14,11 +14,12 @@ USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
 ROBOTSTXT_OBEY = False
 
 #Activer la pipeline
-# ITEM_PIPELINES = {
-#     'nintendo_crawler.pipelines.MongoPipeline': 300,
-# }
-# MONGO_URI = 'mongodb://localhost:27017'
-# MONGO_DATABASE = 'nintendo_db'
+ITEM_PIPELINES = {
+    'nintendo_crawler.pipelines.NintendoPipeline': 300,
+}
+
+MONGO_URI = 'mongodb://root:example@db:27017'
+MONGO_DATABASE = 'nintendo_db'
 
 #Activer les middlewares
 DOWNLOADER_MIDDLEWARES = {
@@ -28,3 +29,4 @@ DOWNLOADER_MIDDLEWARES = {
 # Réglages anti-bannissement
 AUTOTHROTTLE_ENABLED = True
 DOWNLOAD_DELAY = 2
+FEED_EXPORT_ENCODING = 'utf-8'
