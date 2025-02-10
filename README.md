@@ -20,7 +20,6 @@ Ce projet scrappe la catégorie "Jeux" du site **Nintendo**, stocke les données
 
 
 ## Introduction
-Ce projet a pour objectif de créer un dashboard interactif pour visualiser et rechercher des jeux vidéo Nintendo et avoir accès à leurs caractéristiques.  
 Les données sont collectées via un crawler développé avec **Scrapy** et stockées dans une base **MongoDB**.
 L’application web est développée en **Flask** et déployée via **Docker Compose**, et offre une interface dynamique incluant une page d'accueil, un formulaire de recherche et des statistiques visuelles (graphiques avec Chart.js).
 
@@ -90,22 +89,23 @@ graph TD
 
 ### Lancement
 - Clonez le dépôt du projet.
-- Depuis le répertoire racine du projet, exécutez :
-- docker-compose up --build
+- Depuis le répertoire racine du projet, exécutez : docker-compose up --build
 - Accédez à l’application via http://localhost:8050.
 
 
 ## Utilisation
 
 - **Page d'accueil** : Affiche un carrousel dynamique de jeux (images, titres, descriptions).
-- **Recherche** : Formulaire de recherche insensible à la casse
-- **Détails d'un jeu** : Cliquez sur un jeu pour afficher ses informations détaillées.
+- **Recherche** : Formulaire de recherche des jeux par titre (tapez ce que vous voulez, même un bout de titre ou une licence)
+- **Détails d'un jeu** : Cliquez sur un jeu pour afficher ses informations détaillées (accéder depuis le menu recherche)
 - **Statistiques** : Visualisation graphique (répartition par genre, prix, et classification d'âge)
 
 
 ## Annexes
 
-- **Info importante** : ElasticSearch est encore dans l'arborescence du projet et dans certains fichiers car nous avions commencé à essayer de l'implémenter puis nous avons finalement préféré ne pas l'utiliser.
+- **⚠️ Infos importantes** : 
+   - ElasticSearch est encore dans l'arborescence du projet et dans certains fichiers car nous avions commencé à essayer de l'implémenter puis nous avons finalement préféré ne pas l'utiliser.
+   - Nous avons préféré limiter le nombre de données scrapées afin de ne pas surcharger le temps de chargement lors de l'initialisation avec docker-compose (c'est simplement ici pour que vous puissez tester plus rapidement et facilement)
 
 - **Bonus** : Les parties étant "bonus" dans les consignes ont été réalisées:
    - Utilisation de docker-compose
@@ -116,6 +116,6 @@ graph TD
    - api : Application Flask (dashboard).
    - db : MongoDB.
 
-- **Styles et Frontend** : Le dossier frontend contient tous les templates HTML et le dossier static contient les fichiers CSS (exemple pour redimensionner le carrousel).
+- **Styles et Frontend** : Le dossier frontend contient tous les templates HTML et le dossier static contient les fichiers CSS.
 
 - **Mise à jour** : Si vous voulez ajouter ou modifier des fonctionnalités, adaptez le code dans les dossiers concernés et reconstruisez l’image avec docker-compose up --build.
