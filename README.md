@@ -97,7 +97,7 @@ graph TD
 
 - **Page d'accueil** : Affiche un carrousel dynamique de jeux (images, titres, descriptions).
 - **Recherche** : Formulaire de recherche des jeux par titre (tapez ce que vous voulez, même un bout de titre ou une licence)
-- **Détails d'un jeu** : Cliquez sur un jeu pour afficher ses informations détaillées (accéder depuis le menu recherche)
+- **Détails d'un jeu** : Dans la partie Recherche, cliquez sur un jeu pour afficher ses informations détaillées (après avoir recherché quelque chose en particulier)
 - **Statistiques** : Visualisation graphique (répartition par genre, prix, et classification d'âge)
 
 
