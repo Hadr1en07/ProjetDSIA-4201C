@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__, template_folder="frontend")
 
-# Configuration de MongoDB (avec authSource si nécessaire)
+# Configuration de MongoDB (avec authSource)
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI", "mongodb://root:example@db:27017/nintendo?authSource=admin")
 mongo = PyMongo(app)
 

@@ -21,7 +21,7 @@ Ce projet scrappe la catégorie "Jeux" du site **Nintendo**, stocke les données
 
 ## Introduction
 Les données sont collectées via un crawler développé avec **Scrapy** et stockées dans une base **MongoDB**.
-L’application web est développée en **Flask** et déployée via **Docker Compose**, et offre une interface dynamique incluant une page d'accueil, un formulaire de recherche et des statistiques visuelles (graphiques avec Chart.js).
+L’application web est développée en **Flask** et déployée via **Docker Compose**. Elle offre une interface dynamique incluant une page d'accueil, un formulaire de recherche et des statistiques visuelles (graphiques avec Chart.js).
 
 
 ## Architecture du Projet
@@ -105,9 +105,9 @@ graph TD
 
 - **⚠️ Infos importantes** : 
    - ElasticSearch est encore dans l'arborescence du projet et dans certains fichiers car nous avions commencé à essayer de l'implémenter puis nous avons finalement préféré ne pas l'utiliser.
-   - Nous avons préféré limiter le nombre de données scrapées afin de ne pas surcharger le temps de chargement lors de l'initialisation avec docker-compose (c'est simplement ici pour que vous puissez tester plus rapidement et facilement)
+   - Nous avons préféré limiter le nombre de données scrapées afin de ne pas surcharger le temps de chargement lors de l'initialisation avec docker-compose (c'est simplement ici pour que vous puissiez tester plus rapidement et facilement)
 
-- **Bonus** : Les parties étant "bonus" dans les consignes ont été réalisées:
+- **Bonus** : Les parties suivantes étant "bonus" dans les consignes ont été réalisées:
    - Utilisation de docker-compose
    - Scraping en temps réél
 

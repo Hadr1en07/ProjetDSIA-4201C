@@ -1,4 +1,3 @@
-# Define here the models for your spider middleware
 """
 Code by Hadrien DEJONGHE & Esteban NABONNE:
 """

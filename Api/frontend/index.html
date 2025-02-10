@@ -13,10 +13,12 @@
     <div class="carousel-inner">
         {% for game in carousel_games %}
         <div class="carousel-item {% if loop.first %}active{% endif %}">
-            <img src="{{ game.image }}" class="d-block w-100" alt="{{ game.title }}">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>{{ game.title }}</h5>
-                <p>{{ game.description }}</p>
+            <div class="carousel-content">
+                <img src="{{ game.image }}" alt="{{ game.title }}">
+                <div class="carousel-description">
+                    <h5>{{ game.title }}</h5>
+                    <p>{{ game.description }}</p>
+                </div>
             </div>
         </div>
         {% endfor %}

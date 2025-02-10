@@ -16,10 +16,21 @@ footer {
     font-size: 1.25rem;
 }
 
-/*limiter la taille des images dans le carousel de la page d'accueil */
-.carousel-item img {
-    width: 100px;
-    height: 100px;
+
+.carousel-content {
+    text-align: center;
+}
+
+/*limiter la taille des images dans le carousel de la page d'accueil*/
+.carousel-content img {
+    width: 300px;
+    height: 300px;
     object-fit: contain;
-    margin: auto;         
+    display: block;
+    margin: 0 auto;
+}
+
+.carousel-description {
+    color: #000;
+    margin-top: 10px;
 }
