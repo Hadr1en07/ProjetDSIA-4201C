@@ -20,13 +20,13 @@ def index():
 @app.route("/search", methods=["GET"])
 def search():
     """
-    Recherche des jeux dans MongoDB de manière insensible à la casse.
+    Recherche des jeux dans MongoDB en ignorant la casse et les accents.
     """
     query = request.args.get("q", "")
     games = []
     if query:
         regex = re.compile(query, re.IGNORECASE)
-        games = list(mongo.db.games.find({"title": regex}))
+        games = list(mongo.db.games.find({"title": regex}).collation({"locale": "fr", "strength": 1}))
         for game in games:
             game['_id'] = str(game['_id'])
     return render_template("search.html", query=query, games=games)
