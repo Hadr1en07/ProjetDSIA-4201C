@@ -10,7 +10,7 @@ class NintendoPipeline:
         self.collection = self.db["games"]
 
         # Connexion à Elasticsearch
-        self.es = Elasticsearch([{'host': 'elasticsearch', 'port': 9200}])
+        self.es = Elasticsearch([{'host': 'elasticsearch', 'port': 9200, 'scheme': 'http'}])
     
     def process_item(self, item, spider):
         """Insère le document dans MongoDB et l'indexe dans Elasticsearch."""
