@@ -15,6 +15,12 @@
         <canvas id="priceChart"></canvas>
     </div>
 </div>
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h3>Répartition par Classification d'Âge</h3>
+        <canvas id="ageChart"></canvas>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -22,11 +28,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 (function(){
-    // Ces variables seront correctement définies quand Flask traitera le template.
+    // Graphique des genres
     const genreCounts = {{ genre_counts | tojson }};
-    const priceBuckets = {{ price_buckets | tojson }};
-    
-    // Extraction des labels et des valeurs
     const genreLabels = Object.keys(genreCounts);
     const genreData = Object.values(genreCounts);
 
@@ -50,6 +53,8 @@
         }
     });
 
+    // Graphique des prix
+    const priceBuckets = {{ price_buckets | tojson }};
     const priceLabels = Object.keys(priceBuckets);
     const priceData = Object.values(priceBuckets);
 
@@ -72,6 +77,37 @@
                     'rgba(54, 162, 235, 1)',
                     'rgba(255, 206, 86, 1)',
                     'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {}
+    });
+
+    // Graphique des classifications d'âge
+    const ageCounts = {{ age_rating_counts | tojson }};
+    const ageLabels = Object.keys(ageCounts);
+    const ageData = Object.values(ageCounts);
+
+    const ctxAge = document.getElementById('ageChart').getContext('2d');
+    new Chart(ctxAge, {
+        type: 'doughnut',
+        data: {
+            labels: ageLabels,
+            datasets: [{
+                label: 'Répartition par âge',
+                data: ageData,
+                backgroundColor: [
+                    'rgba(255, 159, 64, 0.7)',
+                    'rgba(153, 102, 255, 0.7)',
+                    'rgba(255, 205, 86, 0.7)',
+                    'rgba(201, 203, 207, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 205, 86, 1)',
+                    'rgba(201, 203, 207, 1)'
                 ],
                 borderWidth: 1
             }]

@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Résultats de recherche - Nintendo Dashboard{% endblock %}
+{% block title %}Recherche - Nintendo Dashboard{% endblock %}
 
 {% block content %}
-<h2>Résultats de recherche pour "{{ query }}"</h2>
+<h2>Recherche de jeux</h2>
+<form class="d-flex mb-4" method="get" action="{{ url_for('search') }}">
+    <input class="form-control me-2" type="search" placeholder="Rechercher un jeu" aria-label="Search" name="q" value="{{ query }}">
+    <button class="btn btn-outline-light" type="submit">Rechercher</button>
+</form>
 {% if games %}
     <div class="row">
         {% for game in games %}
@@ -16,13 +20,17 @@
                     <h5 class="card-title">{{ game.title }}</h5>
                     <p class="card-text">{{ game.description }}</p>
                     <p><strong>Prix :</strong> {{ game.price }}</p>
-                    <a href="{{ url_for('game_detail', game_id=game._id) }}" class="btn btn-primary">Détails</a>
+                    <a href="{{ url_for('game_detail', game_id=game._id) }}" class="btn btn-primary">Voir les détails</a>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
 {% else %}
+    {% if query %}
     <p>Aucun jeu trouvé pour "{{ query }}".</p>
+    {% else %}
+    <p>Utilisez le formulaire ci-dessus pour rechercher un jeu par son nom.</p>
+    {% endif %}
 {% endif %}
 {% endblock %}

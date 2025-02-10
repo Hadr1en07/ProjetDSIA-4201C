@@ -3,12 +3,31 @@
 {% block title %}Accueil - Nintendo Dashboard{% endblock %}
 
 {% block content %}
-<div class="text-center">
+<div class="text-center mb-4">
     <h1>Bienvenue sur le Nintendo Dashboard</h1>
     <p>Recherchez vos jeux Nintendo préférés ou explorez les statistiques de l'univers des jeux.</p>
-    <form class="d-flex justify-content-center" method="get" action="{{ url_for('search') }}">
-        <input class="form-control me-2 w-50" type="search" placeholder="Rechercher un jeu" aria-label="Search" name="q">
-        <button class="btn btn-light" type="submit">Rechercher</button>
-    </form>
+</div>
+
+<!-- Carousel -->
+<div id="carouselGames" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        {% for game in carousel_games %}
+        <div class="carousel-item {% if loop.first %}active{% endif %}">
+            <img src="{{ game.image }}" class="d-block w-100" alt="{{ game.title }}">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>{{ game.title }}</h5>
+                <p>{{ game.description }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselGames" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Précédent</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselGames" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Suivant</span>
+    </button>
 </div>
 {% endblock %}

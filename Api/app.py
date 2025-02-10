@@ -1,36 +1,35 @@
+import re
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 import os
-import re
 
-app = Flask(__name__, template_folder="frontend")
+app = Flask(__name__, template_folder="frontend")  # Précise que le dossier des templates est "frontend"
 
-# --- Configuration de MongoDB ---
-# On se connecte avec l'URI défini dans l'environnement ou par défaut (MongoDB avec user:root et pwd:example sur le service "db")
+# Configuration de MongoDB (ajout de ?authSource=admin pour utiliser l'utilisateur root)
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI", "mongodb://root:example@db:27017/nintendo?authSource=admin")
 mongo = PyMongo(app)
 
-# --- Route d'accueil ---
 @app.route("/")
 def index():
-    # La page d'accueil affiche un message de bienvenue et un formulaire de recherche
-    return render_template("index.html")
+    # Récupère quelques jeux ayant une image pour le carrousel (limité à 5)
+    carousel_games = list(mongo.db.games.find({"image": {"$ne": None}}).limit(5))
+    for game in carousel_games:
+        game['_id'] = str(game['_id'])
+    return render_template("index.html", carousel_games=carousel_games)
 
-# --- Route de recherche ---
 @app.route("/search", methods=["GET"])
 def search():
     query = request.args.get("q", "")
     games = []
     if query:
-        # Recherche dans le titre (expression régulière insensible à la casse)
+        # Recherche insensible à la casse dans le titre
         regex = re.compile(query, re.IGNORECASE)
         games = list(mongo.db.games.find({"title": regex}))
         for game in games:
             game['_id'] = str(game['_id'])
     return render_template("search.html", query=query, games=games)
 
-# --- Page de détail d'un jeu ---
 @app.route("/game/<game_id>")
 def game_detail(game_id):
     try:
@@ -43,11 +42,11 @@ def game_detail(game_id):
     else:
         return "Jeu non trouvé", 404
 
-# --- Page de statistiques ---
 @app.route("/stats")
 def stats():
     games = list(mongo.db.games.find())
-    # Statistiques par genre (la valeur "genre" est au format "|action|adventure|")
+    
+    # Statistiques par genre
     genre_counts = {}
     for game in games:
         genres = game.get("genre", "")
@@ -58,6 +57,7 @@ def stats():
                 for genre in genre_list:
                     if genre:
                         genre_counts[genre] = genre_counts.get(genre, 0) + 1
+
     # Statistiques par prix
     price_buckets = {
         "Gratuit": 0,
@@ -78,11 +78,20 @@ def stats():
             else:
                 price_buckets["Plus de 60"] += 1
         except:
-            pass  # On ignore les valeurs non convertibles
+            pass
 
-    return render_template("stats.html", genre_counts=genre_counts, price_buckets=price_buckets)
+    # Nouvelle statistique : répartition par classification d'âge
+    age_rating_counts = {}
+    for game in games:
+        rating = game.get("age_rating", "N/A")
+        if rating and rating != "N/A":
+            age_rating_counts[rating] = age_rating_counts.get(rating, 0) + 1
 
-# --- (Optionnel) API REST pour récupérer les jeux en JSON ---
+    return render_template("stats.html",
+                           genre_counts=genre_counts,
+                           price_buckets=price_buckets,
+                           age_rating_counts=age_rating_counts)
+
 @app.route("/api/games", methods=["GET"])
 def api_games():
     games = list(mongo.db.games.find())

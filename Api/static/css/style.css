@@ -1,5 +1,6 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial, serif;
+    font-style: italic;
     background-color: #f8f9fa;
 }
 
@@ -14,3 +15,10 @@ footer {
 .card-title {
     font-size: 1.25rem;
 }
+
+/*limiter la hauteur des images dans le carousel de la page d'accueil */
+.carousel-item img {
+    max-height: 400px;  
+    object-fit: cover;
+    width: 100%;
+  }
