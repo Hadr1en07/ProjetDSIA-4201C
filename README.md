@@ -85,6 +85,7 @@ graph TD
 
 ### Prérequis
 - **Docker** et **Docker Compose** installés sur votre machine.
+- **MongoDB Compass** installé sur votre machine.
 - Une connexion Internet pour télécharger les images Docker et les dépendances (c'est mieux...)
 
 ### Lancement
