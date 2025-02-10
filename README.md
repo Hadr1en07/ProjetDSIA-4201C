@@ -21,7 +21,7 @@ Ce projet scrappe la catégorie "Jeux" du site **Nintendo**, stocke les données
 
 ## Introduction
 Ce projet a pour objectif de créer un dashboard interactif pour visualiser et rechercher des jeux vidéo Nintendo et avoir accès à leurs caractéristiques.  
-Les données sont collectées via un crawler développé avec **Scrapy** et stockées dans une base **MongoDB**. Ces données sont ensuite indexées dans **Elasticsearch** pour permettre des recherches rapides.
+Les données sont collectées via un crawler développé avec **Scrapy** et stockées dans une base **MongoDB**.
 L’application web est développée en **Flask** et déployée via **Docker Compose**, et offre une interface dynamique incluant une page d'accueil, un formulaire de recherche et des statistiques visuelles (graphiques avec Chart.js).
 
 
@@ -29,14 +29,12 @@ L’application web est développée en **Flask** et déployée via **Docker Com
 Le projet est composé de plusieurs services, tous orchestrés par Docker, qui communiquent entre eux :
 - **Scrapy** : Extraction des données depuis le site de Nintendo.
 - **MongoDB (DB)** : Stockage des données scrapées.
-- **Elasticsearch** : Indexation et recherche rapide.
 - **API (Flask)** : Application web pour l’affichage des données et l’interaction avec l’utilisateur.
 
 ## Technologies et Choix Techniques
 - **Python** : Langage utilisé pour développer Scrapy et l’application Flask.
 - **Flask** : Framework web léger et extensible, idéal pour construire des dashboards.
 - **MongoDB** : Base de données NoSQL pour le stockage des données.
-- **Elasticsearch** : Moteur de recherche performant pour indexer et interroger les données.
 - **Docker & Docker Compose** : Facilite le déploiement et l'orchestration des différents services.
 - **Bootstrap & Chart.js** : Utilisés pour la mise en page responsive et la visualisation des statistiques.
 
@@ -96,31 +94,27 @@ graph TD
 - docker-compose up --build
 - Accédez à l’application via http://localhost:8050.
 
-### Synchronisation Elasticsearch
-Si vous insérez de nouvelles données dans MongoDB via Scrapy, synchronisez l’index Elasticsearch en accédant à :
-http://localhost:8050/sync
-Cela met à jour l’index Elasticsearch avec les documents de MongoDB.
 
 ## Utilisation
 
 - **Page d'accueil** : Affiche un carrousel dynamique de jeux (images, titres, descriptions).
-- **Recherche** : Formulaire de recherche insensible à la casse (les résultats proviennent d’Elasticsearch).
+- **Recherche** : Formulaire de recherche insensible à la casse
 - **Détails d'un jeu** : Cliquez sur un jeu pour afficher ses informations détaillées.
 - **Statistiques** : Visualisation graphique (répartition par genre, prix, et classification d'âge)
 
 
 ## Annexes
 
+- **Info importante** : ElasticSearch est encore dans l'arborescence du projet et dans certains fichiers car nous avions commencé à essayer de l'implémenter puis nous avons finalement préféré ne pas l'utiliser.
+
 - **Bonus** : Les parties étant "bonus" dans les consignes ont été réalisées:
    - Utilisation de docker-compose
    - Scraping en temps réél
-   - Moteur de recherche avec ElasticSearch
 
 - **Docker Compose** : Le fichier docker-compose.yml orchestre l’ensemble des services
    - scraper : Conteneur pour le crawler Scrapy.
    - api : Application Flask (dashboard).
    - db : MongoDB.
-   - elasticsearch : Elasticsearch.
 
 - **Styles et Frontend** : Le dossier frontend contient tous les templates HTML et le dossier static contient les fichiers CSS (exemple pour redimensionner le carrousel).
 

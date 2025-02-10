@@ -56,19 +56,19 @@ class NintendoDownloaderMiddleware:
     def process_request(self, request, spider):
         """ Modifie ou bloque les requêtes avant leur envoi. """
         spider.logger.info(f"Envoi de requête: {request.url}")
-        return None  # Continuer normalement
+        return None
 
     def process_response(self, request, response, spider):
         """ Traite les réponses avant qu’elles n’atteignent la spider. """
         if response.status != 200:
             spider.logger.warning(f"Réponse {response.status} pour {response.url}")
-        return response  # Continuer normalement
+        return response
 
     def process_exception(self, request, exception, spider):
         """ Gère les erreurs de téléchargement. """
         spider.logger.error(f"Erreur de téléchargement : {exception} - {request.url}")
-        time.sleep(2)  # Petit délai pour éviter les blocages
-        return None  # Continuer normalement
+        time.sleep(2) 
+        return None 
 
     def spider_opened(self, spider):
         spider.logger.info(f"Spider ouverte : {spider.name}")

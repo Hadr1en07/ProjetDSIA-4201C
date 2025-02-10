@@ -1,56 +1,17 @@
 import re
-import time
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 import os
-from elasticsearch import Elasticsearch, ConnectionError as ESConnectionError
 
 app = Flask(__name__, template_folder="frontend")
 
-#configuration de MongoDB avec authSource pour l'utilisateur root
+# Configuration de MongoDB (avec authSource si nécessaire)
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI", "mongodb://root:example@db:27017/nintendo?authSource=admin")
 mongo = PyMongo(app)
 
-#création du client Elasticsearch
-es = Elasticsearch([{'host': os.environ.get("ES_HOST", "elasticsearch"),
-                      'port': int(os.environ.get("ES_PORT", 9200))}])
-
-def init_es_index():
-    index_name = "games"
-    max_retries = 10
-    for attempt in range(max_retries):
-        try:
-            if not es.indices.exists(index=index_name):
-                mapping = {
-                    "mappings": {
-                        "properties": {
-                            "title": {"type": "text"},
-                            "link": {"type": "keyword"},
-                            "image": {"type": "keyword"},
-                            "description": {"type": "text"},
-                            "price": {"type": "keyword"},
-                            "age_rating": {"type": "keyword"},
-                            "genre": {"type": "keyword"}
-                        }
-                    }
-                }
-                es.indices.create(index=index_name, body=mapping)
-                print(f"Index '{index_name}' créé dans Elasticsearch.")
-            else:
-                print(f"Index '{index_name}' existe déjà.")
-            break
-        except ESConnectionError as e:
-            print(f"[Attempt {attempt + 1}/{max_retries}] Elasticsearch indisponible, nouvelle tentative dans 3 secondes...")
-            time.sleep(3)
-    else:
-        print("Impossible de se connecter à Elasticsearch après plusieurs tentatives.")
-
-init_es_index()
-
 @app.route("/")
 def index():
-    # Récupère quelques jeux ayant une image pour le carrousel (limité à 5)
     carousel_games = list(mongo.db.games.find({"image": {"$ne": None}}).limit(5))
     for game in carousel_games:
         game['_id'] = str(game['_id'])
@@ -59,21 +20,16 @@ def index():
 @app.route("/search", methods=["GET"])
 def search():
     """
-    Effectue une recherche via Elasticsearch en utilisant une requête multi_match sur title, description et genre.
+    Recherche des jeux dans MongoDB de manière insensible à la casse.
     """
     query = request.args.get("q", "")
-    results = []
+    games = []
     if query:
-        es_response = es.search(index="games", body={
-            "query": {
-                "multi_match": {
-                    "query": query,
-                    "fields": ["title", "description", "genre"]
-                }
-            }
-        })
-        results = [hit["_source"] for hit in es_response.get("hits", {}).get("hits", [])]
-    return render_template("search.html", query=query, games=results)
+        regex = re.compile(query, re.IGNORECASE)
+        games = list(mongo.db.games.find({"title": regex}))
+        for game in games:
+            game['_id'] = str(game['_id'])
+    return render_template("search.html", query=query, games=games)
 
 @app.route("/game/<game_id>")
 def game_detail(game_id):
@@ -139,18 +95,6 @@ def stats():
                            genre_counts=genre_counts,
                            price_buckets=price_buckets,
                            age_rating_counts=age_rating_counts)
-
-@app.route("/sync")
-def sync():
-    """
-    Synchronise tous les jeux de MongoDB dans l'index Elasticsearch.
-    Utile si les documents ont été insérés par Scrapy ou autrement.
-    """
-    games = list(mongo.db.games.find())
-    for game in games:
-        game['_id'] = str(game['_id'])
-        es.index(index="games", id=game['_id'], body=game)
-    return "Synchronisation terminée !"
 
 @app.route("/api/games", methods=["GET"])
 def api_games():

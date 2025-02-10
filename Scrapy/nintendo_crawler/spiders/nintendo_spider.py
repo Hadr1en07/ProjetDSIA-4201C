@@ -20,14 +20,14 @@ class NintendoSpider(scrapy.Spider):
             item["image"] = game.css("img::attr(data-xs)").get()
             item["description"] = game.css(".page-description span::text").get(default="").strip()
 
-            # Aller sur la page du jeu pour récupérer prix, âge et genre
+            #aller sur la page du jeu pour récupérer prix, âge et genre
             yield response.follow(item["link"], self.parse_game_details, meta={"item": item})
 
     def parse_game_details(self, response):
         """Récupère les informations détaillées du jeu"""
         item = response.meta["item"]
 
-        # Extraction JSON caché contenant prix et autres données
+        #extraction des prix, genre, âge
         script_text = response.xpath("//script[contains(text(), 'offdeviceProductPrice')]/text()").get()
         if script_text:
             item["price"] = self.extract_json_value(script_text, "offdeviceProductPrice") or "N/A"

@@ -21,7 +21,6 @@ services:
       - "8050:8050"
     depends_on:
       - db
-      - elasticsearch
     networks:
       - my_network
   db:
