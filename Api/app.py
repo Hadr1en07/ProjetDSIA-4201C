@@ -1,9 +1,10 @@
 import re
+import time
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 import os
-from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch, ConnectionError as ESConnectionError
 
 app = Flask(__name__, template_folder="frontend")
 
@@ -16,28 +17,34 @@ es = Elasticsearch([{'host': os.environ.get("ES_HOST", "elasticsearch"),
                       'port': int(os.environ.get("ES_PORT", 9200))}])
 
 def init_es_index():
-    """
-    Initialise l'index 'games' dans Elasticsearch si celui-ci n'existe pas.
-    """
     index_name = "games"
-    if not es.indices.exists(index=index_name):
-        mapping = {
-            "mappings": {
-                "properties": {
-                    "title": {"type": "text"},
-                    "link": {"type": "keyword"},
-                    "image": {"type": "keyword"},
-                    "description": {"type": "text"},
-                    "price": {"type": "keyword"},
-                    "age_rating": {"type": "keyword"},
-                    "genre": {"type": "keyword"}
+    max_retries = 10
+    for attempt in range(max_retries):
+        try:
+            if not es.indices.exists(index=index_name):
+                mapping = {
+                    "mappings": {
+                        "properties": {
+                            "title": {"type": "text"},
+                            "link": {"type": "keyword"},
+                            "image": {"type": "keyword"},
+                            "description": {"type": "text"},
+                            "price": {"type": "keyword"},
+                            "age_rating": {"type": "keyword"},
+                            "genre": {"type": "keyword"}
+                        }
+                    }
                 }
-            }
-        }
-        es.indices.create(index=index_name, body=mapping)
-        print("Index '{}' créé.".format(index_name))
+                es.indices.create(index=index_name, body=mapping)
+                print(f"Index '{index_name}' créé dans Elasticsearch.")
+            else:
+                print(f"Index '{index_name}' existe déjà.")
+            break
+        except ESConnectionError as e:
+            print(f"[Attempt {attempt + 1}/{max_retries}] Elasticsearch indisponible, nouvelle tentative dans 3 secondes...")
+            time.sleep(3)
     else:
-        print("Index '{}' existe déjà.".format(index_name))
+        print("Impossible de se connecter à Elasticsearch après plusieurs tentatives.")
 
 init_es_index()
 
